@@ -1,14 +1,18 @@
+#Import necessary libraries
 library(ggplot2)
 library(plotly)
 
+#Load file
 tsunamis <- read.csv("C:/Users/micae/Documents/dataset/tsunamis.csv",
                      header=T,
                      stringsAsFactors = F)
 
+#Organize by columns needed
 tsunamis1 = tsunamis[c("YEAR","LATITUDE","LONGITUDE","LOCATION_N","COUNTRY",
                        "RUNUP_HT")]
 tsunamis2 <- tsunamis1[tsunamis1$YEAR >=0,]
 
+#Settings for the map
 g <- list(projection = list(type = 'orthographic'),
           framewidth=0,
           coastlinecolor = "#c9c9c5",
@@ -20,7 +24,7 @@ g <- list(projection = list(type = 'orthographic'),
           countrywidth = 0.2)
 
     
-
+#Plot world map with needed data
 p <- plot_geo(tsunamis2, marker = list(opacity=1,
                                        line=list(width=0))) %>%
   add_markers(x=~LONGITUDE,
@@ -35,4 +39,6 @@ p <- plot_geo(tsunamis2, marker = list(opacity=1,
                            "<br />Runap Height:", RUNUP_HT)) %>%
   layout(geo = g, title = "World Tsunamis",
          margin=list(t=90))
-p
+
+#Observe results
+print(p)
